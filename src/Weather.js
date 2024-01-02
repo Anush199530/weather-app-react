@@ -1,25 +1,23 @@
 import React, { useState } from "react";
 import "./Weather.css";
 import axios from "axios";
+import WeatherDate from "./WeatherDate";
 
 export default function Weather(props) {
-  
-  const [weatherData, setWeatherData] = useState({ready: false});
+  const [weatherData, setWeatherData] = useState({ ready: false });
   function handleResponse(response) {
     console.log(response.data);
     setWeatherData({
       ready: true,
       temperature: response.data.temperature.current,
       humidity: response.data.temperature.humidity,
-      date: "Tuesday 12:00",
+      date: new Date(response.data.time * 1000),
       wind: response.data.wind.speed,
       description: response.data.condition.description,
       icon: response.data.condition.icon,
-      iconUrl:`"http://shecodes-assets.s3.amazonaws.com/api/weather/icons/{icon}.png`,
-           city: response.data.city,
+      iconUrl: `"http://shecodes-assets.s3.amazonaws.com/api/weather/icons/{icon}.png`,
+      city: response.data.city,
     });
-
-  
   }
 
   if (weatherData.ready) {
@@ -46,8 +44,10 @@ export default function Weather(props) {
         </form>
         <h1>{weatherData.city}</h1>
         <ul>
-          <li>{weatherData.date}</li>
-          <li>{weatherData.description}</li>
+          <li>
+            <WeatherDate date={weatherData.date} />{" "}
+          </li>
+          <li className="text-capitalize">{weatherData.description}</li>
         </ul>
         <div className="row mt-3">
           <div className="col-6">
@@ -62,7 +62,7 @@ export default function Weather(props) {
             <span className="units">°C</span>
           </div>
           <div className="col-6">
-            <ul> 
+            <ul>
               <li>Humidity: {weatherData.humidity} % </li>
               <li>Wind: {weatherData.wind} km/h </li>
             </ul>
