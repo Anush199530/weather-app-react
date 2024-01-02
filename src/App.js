@@ -6,7 +6,7 @@ export default function App() {
   return (
     <div className="App container">
       <div className="container">
-        <Weather />
+        <Weather defaultCity="Brussel"/>
         <footer>
           This probject is coded by Anush Arutunian and is{" "}
           <a
